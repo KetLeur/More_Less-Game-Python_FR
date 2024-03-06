@@ -3,13 +3,7 @@
 L'ordinateur tire un nombre entier au hasard entre 0 et 100.  
 L'utilisateur doit le trouver et pour cela il propose des valeurs.   
 L'ordinateur indique pour chaque valeur proposée si elle est trop petite, trop grande ou s'il a trouvé !  
-
-Ecrire un script Python qui permet de jouer à ce jeu. En combien de coups est-on sûr de trouver?  
-Modifier votre script Python pour que le programme s'arrête si l'utilisateur n'a pas trouvé le bon nombre au bout d'un nombre de coups définit au préalable.   
-- Attention aux commentaires
-- Attention aux noms de variables.  
-*Faites valider votre script ainsi que son exécution.* 
-'''
+'''''''''
 
 # Import des modules
 from random import randint
