@@ -7,13 +7,13 @@ L'ordinateur indique pour chaque valeur proposée si elle est trop petite, trop 
 #zebi
 # Import des modules
 from random import randint
-nbpartie=0
-totessaie=0
-echec=0
-fin=0
+NOMBRE_DE_PARTIE_JOUE=0
+NOMBRE_TOTAL_ESSAIS=0
+NOMBRE_ECHEC=0
+FIN_DE_PARTIE=0
 
-def play():
-    global num, essais, totessaie, echec, nbpartie
+def demarrer_une_partie():
+    global num, essais, NOMBRE_TOTAL_ESSAIS, NOMBRE_ECHEC, NOMBRE_DE_PARTIE_JOUE
     # Variable pour le jeu
     num = randint(30,100)
     essais = 1
@@ -39,29 +39,29 @@ def play():
         user = int(input("Selectionnez un nombre entre 30 et 100 : "))
 
     # Résultat
-    totessaie=totessaie+essais
+    NOMBRE_TOTAL_ESSAIS=NOMBRE_TOTAL_ESSAIS+essais
     if essais<11:
         print("Bravo, vous avez trouvé le bon nombre (",num,") en ", essais," essais")
     else:
-        echec=+1
+        NOMBRE_ECHEC=+1
         print("Dommage, vous avez perdu. Le nombre à trouver était :", num)
 def function_doyouwantplay():
     global doyouwantplay
     doyouwantplay=input("Voulez vous faire une partie ? : (O ou N)").upper()
 
 
-while fin==0:
+while FIN_DE_PARTIE==0:
     function_doyouwantplay()
     if doyouwantplay=="O":
-        nbpartie=+1
-        play()
+        NOMBRE_DE_PARTIE_JOUE=+1
+        demarrer_une_partie()
     elif doyouwantplay=="N":
-        fin=1
+        FIN_DE_PARTIE=1
         fichier = open("Python/Dev/Resultats_Juste_Prix.txt", "a")
         fichier.write("\nNb de parties  Nb essais moy   Taux reussite")
-        taux=((nbpartie-echec)*100)/nbpartie
-        result="\n",nbpartie,"   ",totessaie,"",taux,""
-        fichier.write("\n"+str(nbpartie)+"------"+str(totessaie)+"------"+str(taux)+"")
+        taux=((NOMBRE_DE_PARTIE_JOUE-NOMBRE_ECHEC)*100)/NOMBRE_DE_PARTIE_JOUE
+        result="\n",NOMBRE_DE_PARTIE_JOUE,"   ",NOMBRE_TOTAL_ESSAIS,"",taux,""
+        fichier.write("\n"+str(NOMBRE_DE_PARTIE_JOUE)+"------"+str(NOMBRE_TOTAL_ESSAIS)+"------"+str(taux)+"")
         fichier.close()
     else:
         print("Je n'ai pas compris")
