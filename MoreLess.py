@@ -4,7 +4,7 @@ L'ordinateur tire un nombre entier au hasard entre 0 et 100.
 L'utilisateur doit le trouver et pour cela il propose des valeurs.   
 L'ordinateur indique pour chaque valeur proposée si elle est trop petite, trop grande ou s'il a trouvé !  
 '''''''''
-#zebi
+#ptit test
 # Import des modules
 from random import randint
 NOMBRE_DE_PARTIE_JOUE=0
