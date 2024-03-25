@@ -1,69 +1,67 @@
 '''''''''
 **Jeu du plus ou mois !**  
-L'ordinateur tire un nombre entier au hasard entre 0 et 100.  
+L'ordinateur tire un nombre entier au hasard entre 30 et 100.  
 L'utilisateur doit le trouver et pour cela il propose des valeurs.   
 L'ordinateur indique pour chaque valeur proposée si elle est trop petite, trop grande ou s'il a trouvé !  
 '''''''''
-#zebi
-# Import des modules
 from random import randint
-NOMBRE_DE_PARTIE_JOUE=0
-NOMBRE_TOTAL_ESSAIS=0
-NOMBRE_ECHEC=0
-FIN_DE_PARTIE=0
 
-def demarrer_une_partie():
-    global num, essais, NOMBRE_TOTAL_ESSAIS, NOMBRE_ECHEC, NOMBRE_DE_PARTIE_JOUE
-    # Variable pour le jeu
-    num = randint(30,100)
-    essais = 1
+class PlusOuMoins:
+    def __init__(self):
+        self.NOMBRE_DE_PARTIE_JOUE = 0
+        self.NOMBRE_TOTAL_ESSAIS = 0
+        self.NOMBRE_ECHEC = 0
 
-    # Entrée utilisateur
-    print("Tentative numéro :", essais)
-    user = int(input("Selectionnez un nombre entre 30 et 100 : "))
+    def play(self):
+        self.NOMBRE_DE_PARTIE_JOUE += 1
+        NUMERO_ALEATOIRE = randint(30, 100)
+        ESSAIS = 0
 
-    # Noyau du jeu qui permet de dire si supérieur ou inférieur
-    while user != num:
-        if user < num:
-            essais=essais+1
-            print("C'est plus !")
-        else:
-            print("C'est moins !")
-            essais=essais+1
-        # Nouvelle entrée utilisateur
-        if essais==5:
-            print('Attention, vous êtes à votre 5ème éssai !')
-        print("Tentative numéro :", essais)
-        if essais==11:
-            break
-        user = int(input("Selectionnez un nombre entre 30 et 100 : "))
+        while True:
+            ESSAIS += 1
+            UTILISATEUR = self.get_user_input(ESSAIS)
+            if UTILISATEUR == NUMERO_ALEATOIRE:
+                print(f"Bravo, vous avez trouvé le bon nombre ({NUMERO_ALEATOIRE}) en {ESSAIS} essais")
+                break
+            elif UTILISATEUR < NUMERO_ALEATOIRE:
+                print("C'est plus !")
+            else:
+                print("C'est moins !")
+            if ESSAIS == 5:
+                print('Attention, vous êtes à votre 5ème essai !')
+            if ESSAIS == 10:
+                print("Dommage, vous avez perdu. Le nombre à trouver était :", NUMERO_ALEATOIRE)
+                self.NOMBRE_ECHEC += 1
+                break
+        self.NOMBRE_TOTAL_ESSAIS += ESSAIS
 
-    # Résultat
-    NOMBRE_TOTAL_ESSAIS=NOMBRE_TOTAL_ESSAIS+essais
-    if essais<11:
-        print("Bravo, vous avez trouvé le bon nombre (",num,") en ", essais," essais")
-    else:
-        NOMBRE_ECHEC=+1
-        print("Dommage, vous avez perdu. Le nombre à trouver était :", num)
-def function_doyouwantplay():
-    global doyouwantplay
-    doyouwantplay=input("Voulez vous faire une partie ? : (O ou N)").upper()
+    def get_user_input(self, ESSAIS):
+        while True:
+            try:
+                UTILISATEUR = int(input(f"Tentative numéro {ESSAIS}: Sélectionnez un nombre entre 30 et 100 : "))
+                if 30 <= UTILISATEUR <= 100:
+                    return UTILISATEUR
+                else:
+                    print("Le nombre doit être compris entre 30 et 100.")
+            except ValueError:
+                print("Veuillez entrer un nombre entier valide.")
 
+    def run(self):
+        while True:
+            NOUVELLE_PARTIE = input("Voulez-vous faire une partie ? (O ou N)").upper()
+            if NOUVELLE_PARTIE == "N":
+                self.save_results()
+                break
+            elif NOUVELLE_PARTIE == "O":
+                self.play()
+            else:
+                print("Je n'ai pas compris")
 
-while FIN_DE_PARTIE==0:
-    function_doyouwantplay()
-    if doyouwantplay=="O":
-        NOMBRE_DE_PARTIE_JOUE=+1
-        demarrer_une_partie()
-    elif doyouwantplay=="N":
-        FIN_DE_PARTIE=1
-        fichier = open("Python/Dev/Resultats_Juste_Prix.txt", "a")
-        fichier.write("\nNb de parties  Nb essais moy   Taux reussite")
-        taux=((NOMBRE_DE_PARTIE_JOUE-NOMBRE_ECHEC)*100)/NOMBRE_DE_PARTIE_JOUE
-        result="\n",NOMBRE_DE_PARTIE_JOUE,"   ",NOMBRE_TOTAL_ESSAIS,"",taux,""
-        fichier.write("\n"+str(NOMBRE_DE_PARTIE_JOUE)+"------"+str(NOMBRE_TOTAL_ESSAIS)+"------"+str(taux)+"")
-        fichier.close()
-    else:
-        print("Je n'ai pas compris")
-        function_doyouwantplay()
+    def save_results(self):
+        with open("Resultats_Juste_Prix.txt", "w") as fichier:
+            TAUX_REUSSITE = ((self.NOMBRE_DE_PARTIE_JOUE - self.NOMBRE_ECHEC) * 100) / self.NOMBRE_DE_PARTIE_JOUE if self.NOMBRE_DE_PARTIE_JOUE != 0 else 0
+            fichier.write(f"\nNb de parties: {self.NOMBRE_DE_PARTIE_JOUE} | Nb essais moyens: {self.NOMBRE_TOTAL_ESSAIS / self.NOMBRE_DE_PARTIE_JOUE} | Taux réussite: {TAUX_REUSSITE}")
 
+if __name__ == "__main__":
+    game = PlusOuMoins()
+    game.run()
